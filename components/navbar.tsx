@@ -41,15 +41,6 @@ export const Navbar = () => {
 						<p className='font-bold text-inherit'>WXSC</p>
 					</NextLink>
 				</NavbarBrand>
-				<ul className='hidden lg:flex gap-4 justify-start ml-2'>
-					{siteConfig.navItems.map(item => (
-						<NavbarItem key={item.href}>
-							<Link className={'data-[active=true]:text-primary data-[active=true]:font-medium'} href={item.href} data-active={true}>
-								{item.label}
-							</Link>
-						</NavbarItem>
-					))}
-				</ul>
 			</NavbarContent>
 
 			<NavbarContent className='hidden sm:flex basis-1/5 sm:basis-full' justify='end'>
