@@ -16,32 +16,30 @@ export default function SettingPage() {
 		}
 	]
 	return (
-		<div>
-			<Tabs items={tabs}>
-				{item => (
-					<Tab data-focus-visible={false} key={item.id} title={item.label}>
-						<Card>
-							<CardBody>
-								<form className='flex flex-col gap-4'>
-									<Input isRequired label='Email' placeholder='Enter your email' type='email' />
-									<Input isRequired label='Password' placeholder='Enter your password' type='password' />
-									<p className='text-center text-small'>
-										Need to create an account?{' '}
-										<Link size='sm' onPress={() => null}>
-											Sign up
-										</Link>
-									</p>
-									<div className='flex gap-2 justify-end'>
-										<Button fullWidth color='primary'>
-											Login
-										</Button>
-									</div>
-								</form>
-							</CardBody>
-						</Card>
-					</Tab>
-				)}
-			</Tabs>
-		</div>
+		<Tabs items={tabs}>
+			{item => (
+				<Tab data-focus-visible={false} key={item.id} title={item.label}>
+					<Card>
+						<CardBody>
+							<form className='flex flex-col gap-4'>
+								<Input isRequired label='Email' placeholder='Enter your email' type='email' />
+								<Input isRequired label='Password' placeholder='Enter your password' type='password' />
+								<p className='text-center text-small'>
+									Need to create an account?{' '}
+									<Link size='sm' onPress={() => null}>
+										Sign up
+									</Link>
+								</p>
+								<div className='flex gap-2 justify-end'>
+									<Button fullWidth color='primary'>
+										Login
+									</Button>
+								</div>
+							</form>
+						</CardBody>
+					</Card>
+				</Tab>
+			)}
+		</Tabs>
 	)
 }
