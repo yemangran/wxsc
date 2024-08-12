@@ -1,4 +1,5 @@
 import { nextui } from '@nextui-org/theme'
+import daisyui from "daisyui"
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -7,5 +8,5 @@ module.exports = {
 		extend: {}
 	},
 	darkMode: 'class',
-	plugins: [nextui()]
+	plugins: [nextui(),daisyui]
 }
