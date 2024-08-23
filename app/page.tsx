@@ -1,12 +1,30 @@
 'use client'
-import { Tabs, Tab, Card, CardBody, Input, Select, SelectItem, TimeInput } from '@nextui-org/react'
-import { useState } from 'react'
+import {
+	Tabs,
+	Tab,
+	Card,
+	CardBody,
+	Input,
+	Select,
+	SelectItem,
+	TimeInput,
+	Slider
+} from '@nextui-org/react'
+import { useState, useRef } from 'react'
 import dayjs from 'dayjs'
 import styles from '@/styles/app.module.scss'
 import clsx from 'clsx'
-
+import { Time } from '@internationalized/date'
 export default function Home() {
-	const [phone, setPhone] = useState({ dateTime: dayjs(), signal: '4', network: '5G', wifi: 3 })
+	const [phone, setPhone] = useState({
+		dateTime: dayjs(),
+		signal: '4',
+		network: '5G',
+		wifi: '3',
+		charge: '0',
+		battery: 80
+	})
+	const image = useRef(null)
 	const signals = [
 		{ label: '1格', value: 1 },
 		{ label: '2格', value: 2 },
@@ -35,8 +53,9 @@ export default function Home() {
 						onChange={e => {
 							setPhone({ ...phone, network: e.target.value })
 						}}
+						defaultSelectedKeys={[phone.network]}
 					>
-						{network => <SelectItem key={network.label}>{network.label}</SelectItem>}
+						{network => <SelectItem key={network.label}>{network.label.toUpperCase()}</SelectItem>}
 					</Select>
 					<Select
 						items={signals}
@@ -47,19 +66,21 @@ export default function Home() {
 						onChange={e => {
 							setPhone({ ...phone, signal: e.target.value })
 						}}
+						defaultSelectedKeys={phone.signal}
 					>
 						{signal => <SelectItem key={signal.value}>{signal.label}</SelectItem>}
 					</Select>
 					{phone.network == 'wifi' && (
 						<Select
 							items={wifis}
-							label='wifi信号'
+							label='WIFI信号'
 							labelPlacement={labelPlacement}
-							placeholder='选择wifi信号'
+							placeholder='选择WIFI信号'
 							className='md:basis-1/2 p-2'
 							onChange={e => {
-								setPhone({ ...phone, wifi: parseInt(e.target.value) })
+								setPhone({ ...phone, wifi: e.target.value })
 							}}
+							defaultSelectedKeys={phone.wifi}
 						>
 							{wifi => <SelectItem key={wifi.value}>{wifi.label}</SelectItem>}
 						</Select>
@@ -69,6 +90,7 @@ export default function Home() {
 						hourCycle={24}
 						labelPlacement={labelPlacement}
 						className='md:basis-1/2 p-2'
+						defaultValue={new Time(phone.dateTime.hour(), phone.dateTime.minute())}
 						onChange={e => {
 							if (!e) return
 							const { hour, minute } = e
@@ -85,10 +107,26 @@ export default function Home() {
 						placeholder='选择充电状态'
 						labelPlacement={labelPlacement}
 						className='md:basis-1/2 p-2'
+						defaultSelectedKeys={[phone.charge]}
+						onChange={e => {
+							setPhone({ ...phone, charge: e.target.value })
+						}}
 					>
 						<SelectItem key='0'>否</SelectItem>
 						<SelectItem key='1'>是</SelectItem>
 					</Select>
+					<Slider
+						label='手机电量'
+						step={1}
+						maxValue={100}
+						minValue={0}
+						size='lg'
+						defaultValue={phone.battery}
+						className='md:basis-1/2 p-2'
+						onChangeEnd={e => {
+							setPhone({ ...phone, battery: e as number })
+						}}
+					/>
 					<Select
 						label='听筒模式'
 						placeholder='选择听筒模式'
@@ -157,7 +195,7 @@ export default function Home() {
 				</Tabs>
 			</div>
 			<div className='md:basis-1/3 p-2 flex-1'>
-				<div className={styles.iphone_x}>
+				<div ref={image} className={styles.iphone_x}>
 					<div className='w-full'>
 						<div id='phone'>
 							<div>
@@ -171,7 +209,18 @@ export default function Home() {
 									>
 										{phone.network}
 									</div>
-									<div className={styles.bar_battery}></div>
+									<div className={styles.bar_battery}>
+										<div
+											style={{ width: `${phone.battery}%` }}
+											className={clsx(
+												styles.battery,
+												phone.charge == '1' && styles.charge,
+												phone.battery < 20 && styles.low
+											)}
+										>
+											电量
+										</div>
+									</div>
 								</div>
 								<div className={styles.phone_nav}></div>
 							</div>
@@ -182,6 +231,15 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
+				<button
+					onClick={async () => {
+						//todo)):这里拿到了dom，尽量实现dom转图片
+						//目前html2canvas会报错
+						console.log(image.current)
+					}}
+				>
+					下载
+				</button>
 			</div>
 		</div>
 	)

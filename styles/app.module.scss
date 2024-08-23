@@ -24,7 +24,7 @@
 	.bar_signal {
 		width: 18px;
 		height: 12px;
-    margin-right: 2px;
+		margin-right: 2px;
 
 		@for $i from 1 through 4 {
 			&.signal_#{$i} {
@@ -43,8 +43,8 @@
 
 		@for $i from 1 through 3 {
 			&.wifi_#{$i} {
-        height: 15px;
-        text-indent: -9999px;
+				height: 15px;
+				text-indent: -9999px;
 				background: url('../public/images/bar/ios-wifi-#{$i}-dark.png') center/cover no-repeat;
 			}
 		}
@@ -53,6 +53,30 @@
 	.bar_battery {
 		width: 25px;
 		height: 12px;
+		background: url('../public/images/bar/ios-battery-dark.png') center/cover no-repeat;
+		padding: 2.3px 5.3px 2.3px 2.3px;
+		position: relative;
+		.battery {
+			text-indent: -9999px;
+			border-radius: 1.3px;
+			height: 7.3px;
+			background-color: #000;
+			&.low {
+				background-color: #f00;
+			}
+			&.charge {
+				background-color: #65c466;
+				&::after {
+					content: '1';
+					position: absolute;
+					top: 1px;
+					left: 8px;
+					width: 6px;
+					height: 10px;
+					background: url('../public/images/bar/ios-battery-charge-dark.png') center/cover no-repeat;
+				}
+			}
+		}
 	}
 }
 
