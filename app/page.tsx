@@ -2,22 +2,18 @@
 import { Tabs, Tab, Card, CardBody, Input, Select, SelectItem, TimeInput } from '@nextui-org/react'
 import { useState } from 'react'
 import dayjs from 'dayjs'
-import styles from '@/styles/app.module.css'
-console.log(styles, 'styles!!!')
+import styles from '@/styles/app.module.scss'
+import clsx from 'clsx'
 
 export default function Home() {
+	const [phone, setPhone] = useState({ dateTime: dayjs(), signal: '4', network: '5G', wifi: 3 })
 	const signals = [
 		{ label: '1格', value: 1 },
 		{ label: '2格', value: 2 },
 		{ label: '3格', value: 3 },
 		{ label: '4格', value: 4 }
 	]
-	const networks = [
-		{ label: 'wifi', value: 1 },
-		{ label: '3G', value: 2 },
-		{ label: '4G', value: 3 },
-		{ label: '5G', value: 4 }
-	]
+	const networks = [{ label: 'wifi' }, { label: '3G' }, { label: '4G' }, { label: '5G' }]
 	const wifis = [
 		{ label: '1格', value: 1 },
 		{ label: '2格', value: 2 },
@@ -31,35 +27,43 @@ export default function Home() {
 			content: (
 				<form className='flex flex-wrap'>
 					<Select
-						items={signals}
-						label='手机信号'
-						labelPlacement={labelPlacement}
-						placeholder='选择手机信号'
-						className='md:basis-1/2 p-2'
-						onSelectionChange={e => {
-							console.log(e, '___', phone)
-						}}
-					>
-						{signal => <SelectItem key={signal.value}>{signal.label}</SelectItem>}
-					</Select>
-					<Select
 						items={networks}
 						label='网络信号'
 						labelPlacement={labelPlacement}
 						placeholder='选择手机信号'
 						className='md:basis-1/2 p-2'
+						onChange={e => {
+							setPhone({ ...phone, network: e.target.value })
+						}}
+					>
+						{network => <SelectItem key={network.label}>{network.label}</SelectItem>}
+					</Select>
+					<Select
+						items={signals}
+						label='手机信号'
+						labelPlacement={labelPlacement}
+						placeholder='选择手机信号'
+						className='md:basis-1/2 p-2'
+						onChange={e => {
+							setPhone({ ...phone, signal: e.target.value })
+						}}
 					>
 						{signal => <SelectItem key={signal.value}>{signal.label}</SelectItem>}
 					</Select>
-					<Select
-						items={wifis}
-						label='wifi信号'
-						labelPlacement={labelPlacement}
-						placeholder='选择wifi信号'
-						className='md:basis-1/2 p-2'
-					>
-						{wifi => <SelectItem key={wifi.value}>{wifi.label}</SelectItem>}
-					</Select>
+					{phone.network == 'wifi' && (
+						<Select
+							items={wifis}
+							label='wifi信号'
+							labelPlacement={labelPlacement}
+							placeholder='选择wifi信号'
+							className='md:basis-1/2 p-2'
+							onChange={e => {
+								setPhone({ ...phone, wifi: parseInt(e.target.value) })
+							}}
+						>
+							{wifi => <SelectItem key={wifi.value}>{wifi.label}</SelectItem>}
+						</Select>
+					)}
 					<TimeInput
 						label='手机时间'
 						hourCycle={24}
@@ -139,7 +143,6 @@ export default function Home() {
 			)
 		}
 	]
-	const [phone, setPhone] = useState({ dateTime: dayjs() })
 	return (
 		<div className='container mx-auto max-w-7xl pt-4 px-6 flex flex-wrap grow'>
 			<div className='md:basis-2/3 p-2'>
@@ -154,16 +157,23 @@ export default function Home() {
 				</Tabs>
 			</div>
 			<div className='md:basis-1/3 p-2 flex-1'>
-				<div className={`bg-slate-500 ${styles.iphone_x}`}>
+				<div className={styles.iphone_x}>
 					<div className='w-full'>
-						<div id='phone' className='phone'>
-							<div className='phone-top'>
-								<div className='phone-bar' style={{ height: '44px' }}>
-									<div className='phone-time'>
+						<div id='phone'>
+							<div>
+								<div className={styles.phone_bar}>
+									<div className={styles.bar_time}>
 										<>{phone.dateTime.format('HH:mm')}</>
 									</div>
+									<div className={clsx(styles.bar_signal, styles[`signal_${phone.signal}`])}></div>
+									<div
+										className={clsx(styles.bar_networks, styles[`${phone.network}_${phone.wifi}`])}
+									>
+										{phone.network}
+									</div>
+									<div className={styles.bar_battery}></div>
 								</div>
-								<div className='phone-nav' style={{ height: '44px' }}></div>
+								<div className={styles.phone_nav}></div>
 							</div>
 							<div className='phone-bg'></div>
 							<div className='phone-water'></div>
