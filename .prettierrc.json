@@ -17,5 +17,8 @@
   "proseWrap": "preserve",
   "htmlWhitespaceSensitivity": "css",
   "vueIndentScriptAndStyle": false,
-  "endOfLine": "crlf"
+  "endOfLine": "crlf",
+  "importOrder": ["^components/(.*)$", "^[./]" ],
+  "importOrderSeparation": true, 
+  "importOrderSortSpecifiers": true 
 }

@@ -1,20 +1,20 @@
 'use client'
+import { Time } from '@internationalized/date'
 import {
-	Tabs,
-	Tab,
 	Card,
 	CardBody,
 	Input,
 	Select,
 	SelectItem,
-	TimeInput,
-	Slider
+	Slider,
+	Tab,
+	Tabs,
+	TimeInput
 } from '@nextui-org/react'
-import { useState, useRef } from 'react'
 import dayjs from 'dayjs'
-import styles from '@/styles/app.module.scss'
-import clsx from 'clsx'
-import { Time } from '@internationalized/date'
+import { useRef, useState } from 'react'
+
+import Phone from '@/components/phone'
 export default function Home() {
 	const [phone, setPhone] = useState({
 		dateTime: dayjs(),
@@ -195,47 +195,12 @@ export default function Home() {
 				</Tabs>
 			</div>
 			<div className='md:basis-1/3 p-2 flex-1'>
-				<div ref={image} className={styles.iphone_x}>
-					<div className='w-full'>
-						<div id='phone'>
-							<div>
-								<div className={styles.phone_bar}>
-									<div className={styles.bar_time}>
-										<>{phone.dateTime.format('HH:mm')}</>
-									</div>
-									<div className={clsx(styles.bar_signal, styles[`signal_${phone.signal}`])}></div>
-									<div
-										className={clsx(styles.bar_networks, styles[`${phone.network}_${phone.wifi}`])}
-									>
-										{phone.network}
-									</div>
-									<div className={styles.bar_battery}>
-										<div
-											style={{ width: `${phone.battery}%` }}
-											className={clsx(
-												styles.battery,
-												phone.charge == '1' && styles.charge,
-												phone.battery < 20 && styles.low
-											)}
-										>
-											电量
-										</div>
-									</div>
-								</div>
-								<div className={styles.phone_nav}></div>
-							</div>
-							<div className='phone-bg'></div>
-							<div className='phone-water'></div>
-							<div className='phone-body'></div>
-							<div className='phone-bottom'></div>
-						</div>
-					</div>
-				</div>
+				<Phone image={image} phone={phone} />
 				<button
 					onClick={async () => {
 						//todo)):这里拿到了dom，尽量实现dom转图片
 						//目前html2canvas会报错
-						console.log(image.current)
+						console.log(image.current, image)
 					}}
 				>
 					下载
