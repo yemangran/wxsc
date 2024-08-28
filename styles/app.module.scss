@@ -9,6 +9,13 @@
 	background-color: var(--phone-bg-color);
 }
 
+#phone {
+	display: flex;
+	//纵向排列
+	flex-direction: column;
+	height: 100%;
+}
+
 .phone_bar {
 	height: 44px;
 	align-items: center;
@@ -82,11 +89,101 @@
 
 .phone_nav {
 	height: 44px;
+	padding: 0 16px;
+	display: flex;
+	align-items: center;
 	.left {
+		width: 50px;
+		position: relative;
+		.back {
+			width: 9px;
+			height: 17px;
+			background: url('../public/images/wechat-nav-back.png') center/cover no-repeat;
+		}
+		span {
+			position: absolute;
+			font-size: 14px;
+			height: 24px;
+			line-height: 24px;
+			background: #d5d5d5;
+			min-width: 24px;
+			border-radius: 36px;
+			text-align: center;
+			padding: 0 8px;
+			top: -3.5px;
+			left: 15px;
+			color: var(--font-color);
+		}
 	}
 	.center {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		span {
+			font-size: 17px;
+			font-weight: 500;
+			color: var(--font-color);
+		}
 	}
 	.right {
+		width: 50px;
+		display: flex;
+		justify-content: flex-end;
+		div {
+			width: 23px;
+			height: 4px;
+			background: url('../public/images/wechat-nav-right.png') center/cover no-repeat;
+		}
+	}
+}
+
+.phone_body {
+	flex: 1;
+	height: 100px;
+}
+
+.phone_bottom {
+	background-color: #f6f6f5;
+	.bottom_chat {
+		height: 56px;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		.icon {
+			height: 26.7px;
+			width: 26.7px;
+			&.voice {
+				background: url('../public/images/wechat-bottom-icon1.png') center/contain no-repeat;
+				margin-left: 10.6px;
+			}
+			&.emoji {
+				background: url('../public/images/wechat-bottom-icon2.png') center/contain no-repeat;
+			}
+			&.more {
+				background: url('../public/images/wechat-bottom-icon3.png') center/contain no-repeat;
+				margin: 0 10.6px 0 13px;
+			}
+		}
+		.input {
+			height: 40px;
+			background: #fff;
+			border-radius: 5px;
+			margin: 0 10.6px;
+			flex: 1;
+		}
+	}
+	.bottom_bar {
+		height: 34px;
+		display: flex;
+		justify-content: center;
+		span {
+			width: 134px;
+			height: 5px;
+			background: url(../public/images/phone-bottom-bar.png) center/contain no-repeat;
+			margin-top: 21px;
+			text-indent: -9999px;
+		}
 	}
 }
 

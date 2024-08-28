@@ -1,3 +1,6 @@
+import { GithubIcon, Logo } from '@/components/icons'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { siteConfig } from '@/config/site'
 import { Link } from '@nextui-org/link'
 import {
 	NavbarBrand,
@@ -8,10 +11,6 @@ import {
 	Navbar as NextUINavbar
 } from '@nextui-org/navbar'
 import NextLink from 'next/link'
-
-import { GithubIcon, Logo } from '@/components/icons'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { siteConfig } from '@/config/site'
 
 export const Navbar = () => {
 	return (

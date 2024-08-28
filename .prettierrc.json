@@ -18,7 +18,8 @@
   "htmlWhitespaceSensitivity": "css",
   "vueIndentScriptAndStyle": false,
   "endOfLine": "crlf",
-  "importOrder": ["^components/(.*)$", "^[./]" ],
-  "importOrderSeparation": true, 
-  "importOrderSortSpecifiers": true 
+  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }

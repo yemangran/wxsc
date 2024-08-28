@@ -1,4 +1,6 @@
 'use client'
+
+import Phone from '@/components/phone'
 import { Time } from '@internationalized/date'
 import {
 	Card,
@@ -14,7 +16,6 @@ import {
 import dayjs from 'dayjs'
 import { useRef, useState } from 'react'
 
-import Phone from '@/components/phone'
 export default function Home() {
 	const [phone, setPhone] = useState({
 		dateTime: dayjs(),
@@ -22,7 +23,9 @@ export default function Home() {
 		network: '5G',
 		wifi: '3',
 		charge: '0',
-		battery: 80
+		battery: 80,
+		messages: '1',
+		title: '聊天标题'
 	})
 	const image = useRef(null)
 	const signals = [
@@ -143,6 +146,10 @@ export default function Home() {
 						className='md:basis-1/2 p-2'
 						labelPlacement={labelPlacement}
 						min={0}
+						defaultValue={phone.messages}
+						onChange={e => {
+							setPhone({ ...phone, messages: e.target.value })
+						}}
 					/>
 					<Input
 						type='text'
@@ -150,6 +157,10 @@ export default function Home() {
 						labelPlacement={labelPlacement}
 						placeholder='输入聊天标题'
 						className='md:basis-1/2 p-2'
+						defaultValue={phone.title}
+						onChange={e => {
+							setPhone({ ...phone, title: e.target.value })
+						}}
 					/>
 					<Select
 						label='语音模式'

@@ -11,4 +11,6 @@ export interface Phone {
 	wifi: string
 	charge: string
 	battery: number
+	messages: string,
+	title: string
 }
