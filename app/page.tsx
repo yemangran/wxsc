@@ -25,7 +25,10 @@ export default function Home() {
 		charge: '0',
 		battery: 80,
 		messages: '1',
-		title: '聊天标题'
+		title: '聊天标题',
+		earphone: '0',
+		voice: '0',
+		bgImage: undefined as string | undefined
 	})
 	const image = useRef(null)
 	const signals = [
@@ -135,6 +138,10 @@ export default function Home() {
 						placeholder='选择听筒模式'
 						labelPlacement={labelPlacement}
 						className='md:basis-1/2 p-2'
+						defaultSelectedKeys={[phone.earphone]}
+						onChange={e => {
+							setPhone({ ...phone, earphone: e.target.value })
+						}}
 					>
 						<SelectItem key='0'>否</SelectItem>
 						<SelectItem key='1'>是</SelectItem>
@@ -167,6 +174,10 @@ export default function Home() {
 						placeholder='选择语音模式'
 						labelPlacement={labelPlacement}
 						className='md:basis-1/2 p-2'
+						defaultSelectedKeys={[phone.voice]}
+						onChange={e => {
+							setPhone({ ...phone, voice: e.target.value })
+						}}
 					>
 						<SelectItem key='0'>否</SelectItem>
 						<SelectItem key='1'>是</SelectItem>
@@ -178,6 +189,16 @@ export default function Home() {
 						placeholder='上传背景图片'
 						className='md:basis-1/2 p-2'
 						accept='image/*'
+						onChange={e => {
+							const file = e.target.files?.[0]
+							if (file) {
+								const reader = new FileReader()
+								reader.readAsDataURL(file)
+								reader.onload = () => {
+									setPhone({ ...phone, bgImage: reader.result as string | undefined })
+								}
+							}
+						}}
 					/>
 				</form>
 			)

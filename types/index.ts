@@ -1,5 +1,6 @@
-import { SVGProps } from 'react'
 import dayjs from 'dayjs'
+import { SVGProps } from 'react'
+
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
 	size?: number
 }
@@ -11,6 +12,9 @@ export interface Phone {
 	wifi: string
 	charge: string
 	battery: number
-	messages: string,
+	messages: string
 	title: string
+	earphone: string
+	voice: string
+	bgImage: string | undefined
 }

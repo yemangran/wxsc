@@ -35,17 +35,24 @@ export default function PhoneComponent({ image, phone }: { image: any; phone: Ph
 						</div>
 						<div className={styles.center}>
 							<span>{phone.title}</span>
+							<i className={clsx(phone.earphone == '1' && styles.earphone)}></i>
 						</div>
 						<div className={styles.right}>
 							<div></div>
 						</div>
 					</div>
 				</div>
-				<div className={styles.phone_body}></div>
+				<div className={styles.phone_body}>
+					<div className={styles.phone_bg}>
+						{phone.bgImage && <img src={phone.bgImage} alt='background_image' className={styles.bg_image}/>}
+					</div>
+				</div>
 				<div className={styles.phone_bottom}>
 					<div className={styles.bottom_chat}>
-						<div className={clsx(styles.icon, styles.voice)}></div>
-						<div className={clsx(styles.input)}></div>
+						<div
+							className={clsx(styles.icon, phone.voice == '0' ? styles.voice : styles.keyboard)}
+						></div>
+						<div className={clsx(styles.input)}>按住 说话</div>
 						<div className={clsx(styles.icon, styles.emoji)}></div>
 						<div className={clsx(styles.icon, styles.more)}></div>
 					</div>
