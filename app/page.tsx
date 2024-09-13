@@ -3,6 +3,8 @@
 import Phone from '@/components/phone'
 import { Time } from '@internationalized/date'
 import {
+	Avatar,
+	Button,
 	Card,
 	CardBody,
 	Input,
@@ -208,7 +210,30 @@ export default function Home() {
 			label: '对话设置',
 			content: (
 				<form className='flex flex-wrap'>
-					<div>123</div>
+					<div className='md:basis-1/2 p-2 gap-2 flex items-end'>
+						<Select
+							items={networks}
+							label='聊天用户'
+							labelPlacement={labelPlacement}
+							placeholder='选择聊天用户'
+							onChange={e => {
+								setPhone({ ...phone, network: e.target.value })
+							}}
+							defaultSelectedKeys={[phone.network]}
+						>
+							{network => (
+								<SelectItem
+									key={network.label}
+									startContent={
+										<Avatar alt='Argentina' className='w-6 h-6' src='https://flagcdn.com/cn.svg' />
+									}
+								>
+									{network.label.toUpperCase()}
+								</SelectItem>
+							)}
+						</Select>
+						<Button startContent={'todo)):添加svg图标'}>Small</Button>
+					</div>
 				</form>
 			)
 		}
