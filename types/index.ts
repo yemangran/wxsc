@@ -18,3 +18,8 @@ export interface Phone {
 	voice: string
 	bgImage: string | undefined
 }
+
+export interface User{
+	name: string,
+	avatar: string | undefined
+}

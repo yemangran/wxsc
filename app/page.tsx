@@ -1,19 +1,28 @@
 'use client'
 
+import { getRandomAvator } from '@/api/server'
 import Phone from '@/components/phone'
+import { User } from '@/types/index'
 import { Time } from '@internationalized/date'
 import {
 	Avatar,
+	Badge,
 	Button,
 	Card,
 	CardBody,
 	Input,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
 	Select,
 	SelectItem,
 	Slider,
 	Tab,
 	Tabs,
-	TimeInput
+	TimeInput,
+	useDisclosure
 } from '@nextui-org/react'
 import dayjs from 'dayjs'
 import { useRef, useState } from 'react'
@@ -32,6 +41,10 @@ export default function Home() {
 		voice: '0',
 		bgImage: undefined as string | undefined
 	})
+	const [user, setUser] = useState<User>({
+		name: '',
+		avatar: undefined
+	})
 	const image = useRef(null)
 	const signals = [
 		{ label: '1格', value: 1 },
@@ -46,6 +59,12 @@ export default function Home() {
 		{ label: '3格', value: 3 }
 	]
 	const labelPlacement = 'outside'
+	const { isOpen, onOpen, onOpenChange } = useDisclosure()
+	const openUserModal = async () => {
+		const avatar = await getRandomAvator()
+		setUser({ avatar, name: `用户名_${Date.now()}` })
+		onOpen()
+	}
 	let tabs = [
 		{
 			id: 'appearance',
@@ -57,7 +76,7 @@ export default function Home() {
 						label='网络信号'
 						labelPlacement={labelPlacement}
 						placeholder='选择手机信号'
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						onChange={e => {
 							setPhone({ ...phone, network: e.target.value })
 						}}
@@ -70,7 +89,7 @@ export default function Home() {
 						label='手机信号'
 						labelPlacement={labelPlacement}
 						placeholder='选择手机信号'
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						onChange={e => {
 							setPhone({ ...phone, signal: e.target.value })
 						}}
@@ -84,7 +103,7 @@ export default function Home() {
 							label='WIFI信号'
 							labelPlacement={labelPlacement}
 							placeholder='选择WIFI信号'
-							className='md:basis-1/2 p-2'
+							className='p-2 md:basis-1/2'
 							onChange={e => {
 								setPhone({ ...phone, wifi: e.target.value })
 							}}
@@ -97,7 +116,7 @@ export default function Home() {
 						label='手机时间'
 						hourCycle={24}
 						labelPlacement={labelPlacement}
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						defaultValue={new Time(phone.dateTime.hour(), phone.dateTime.minute())}
 						onChange={e => {
 							if (!e) return
@@ -114,7 +133,7 @@ export default function Home() {
 						label='充电状态'
 						placeholder='选择充电状态'
 						labelPlacement={labelPlacement}
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						defaultSelectedKeys={[phone.charge]}
 						onChange={e => {
 							setPhone({ ...phone, charge: e.target.value })
@@ -130,7 +149,7 @@ export default function Home() {
 						minValue={0}
 						size='lg'
 						defaultValue={phone.battery}
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						onChangeEnd={e => {
 							setPhone({ ...phone, battery: e as number })
 						}}
@@ -139,7 +158,7 @@ export default function Home() {
 						label='听筒模式'
 						placeholder='选择听筒模式'
 						labelPlacement={labelPlacement}
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						defaultSelectedKeys={[phone.earphone]}
 						onChange={e => {
 							setPhone({ ...phone, earphone: e.target.value })
@@ -151,8 +170,8 @@ export default function Home() {
 					<Input
 						type='number'
 						label='消息数量'
-						placeholder='输入消息数量'
-						className='md:basis-1/2 p-2'
+						placeholder='请输入消息数量'
+						className='p-2 md:basis-1/2'
 						labelPlacement={labelPlacement}
 						min={0}
 						defaultValue={phone.messages}
@@ -164,8 +183,8 @@ export default function Home() {
 						type='text'
 						label='聊天标题'
 						labelPlacement={labelPlacement}
-						placeholder='输入聊天标题'
-						className='md:basis-1/2 p-2'
+						placeholder='请输入聊天标题'
+						className='p-2 md:basis-1/2'
 						defaultValue={phone.title}
 						onChange={e => {
 							setPhone({ ...phone, title: e.target.value })
@@ -175,7 +194,7 @@ export default function Home() {
 						label='语音模式'
 						placeholder='选择语音模式'
 						labelPlacement={labelPlacement}
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						defaultSelectedKeys={[phone.voice]}
 						onChange={e => {
 							setPhone({ ...phone, voice: e.target.value })
@@ -189,7 +208,7 @@ export default function Home() {
 						label='聊天背景'
 						labelPlacement={labelPlacement}
 						placeholder='上传背景图片'
-						className='md:basis-1/2 p-2'
+						className='p-2 md:basis-1/2'
 						accept='image/*'
 						onChange={e => {
 							const file = e.target.files?.[0]
@@ -209,38 +228,79 @@ export default function Home() {
 			id: 'dialogue',
 			label: '对话设置',
 			content: (
-				<form className='flex flex-wrap'>
-					<div className='md:basis-1/2 p-2 gap-2 flex items-end'>
-						<Select
-							items={networks}
-							label='聊天用户'
-							labelPlacement={labelPlacement}
-							placeholder='选择聊天用户'
-							onChange={e => {
-								setPhone({ ...phone, network: e.target.value })
-							}}
-							defaultSelectedKeys={[phone.network]}
-						>
-							{network => (
-								<SelectItem
-									key={network.label}
-									startContent={
-										<Avatar alt='Argentina' className='w-6 h-6' src='https://flagcdn.com/cn.svg' />
-									}
-								>
-									{network.label.toUpperCase()}
-								</SelectItem>
+				<>
+					<Modal isOpen={isOpen} onOpenChange={onOpenChange} size='xs'>
+						<ModalContent>
+							{onClose => (
+								<>
+									<ModalHeader className='flex flex-col gap-1'>添加用户</ModalHeader>
+									<ModalBody>
+										<div>
+											{/* todo)):头像外面包一层，然后添加遮罩实现编辑头像功能 */}
+										<Avatar src={user.avatar} className='mx-auto block h-1/2 w-1/2' />
+										</div>
+										<Input
+											type='text'
+											label='用户名'
+											placeholder='请输入用户名'
+											className='p-2'
+											defaultValue={user.name}
+											onChange={e => {
+												setUser({ ...user, name: e.target.value })
+											}}
+										/>
+									</ModalBody>
+									<ModalFooter>
+										<Button color='danger' variant='light' onPress={onClose}>
+											取消
+										</Button>
+										<Button color='primary' onPress={onClose}>
+											确定
+										</Button>
+									</ModalFooter>
+								</>
 							)}
-						</Select>
-						<Button startContent={'todo)):添加svg图标'}>Small</Button>
-					</div>
-				</form>
+						</ModalContent>
+					</Modal>
+					<form className='flex flex-wrap'>
+						<div className='flex items-end gap-2 p-2 md:basis-1/2'>
+							<Select
+								items={networks}
+								label='聊天用户'
+								labelPlacement={labelPlacement}
+								placeholder='选择聊天用户'
+								onChange={e => {
+									setPhone({ ...phone, network: e.target.value })
+								}}
+								defaultSelectedKeys={[phone.network]}
+							>
+								{network => (
+									<SelectItem
+										key={network.label}
+										startContent={
+											<Avatar
+												alt='Argentina'
+												className='h-6 w-6'
+												src='https://flagcdn.com/cn.svg'
+											/>
+										}
+									>
+										{network.label.toUpperCase()}
+									</SelectItem>
+								)}
+							</Select>
+							<Button startContent={'todo)):添加svg图标'} onPress={openUserModal}>
+								添加
+							</Button>
+						</div>
+					</form>
+				</>
 			)
 		}
 	]
 	return (
-		<div className='container mx-auto max-w-7xl pt-4 px-6 flex flex-wrap grow'>
-			<div className='md:basis-2/3 p-2'>
+		<div className='container mx-auto flex max-w-7xl grow flex-wrap px-6 pt-4'>
+			<div className='p-2 md:basis-2/3'>
 				<Tabs items={tabs}>
 					{item => (
 						<Tab data-focus-visible={false} key={item.id} title={item.label}>
@@ -251,7 +311,7 @@ export default function Home() {
 					)}
 				</Tabs>
 			</div>
-			<div className='md:basis-1/3 p-2 flex-1'>
+			<div className='flex-1 p-2 md:basis-1/3'>
 				<Phone image={image} phone={phone} />
 				<button
 					onClick={async () => {
