@@ -44,7 +44,9 @@ export default function PhoneComponent({ image, phone }: { image: any; phone: Ph
 				</div>
 				<div className={styles.phone_body}>
 					<div className={styles.phone_bg}>
-						{phone.bgImage && <img src={phone.bgImage} alt='background_image' className={styles.bg_image}/>}
+						{phone.bgImage && (
+							<img src={phone.bgImage} alt='background_image' className={styles.bg_image} />
+						)}
 					</div>
 				</div>
 				<div className={styles.phone_bottom}>
@@ -64,4 +66,3 @@ export default function PhoneComponent({ image, phone }: { image: any; phone: Ph
 		</div>
 	)
 }
-
