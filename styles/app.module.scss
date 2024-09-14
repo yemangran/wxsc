@@ -1,12 +1,10 @@
-.root {
-	--phone-bg-color: #ededed;
-	--font-color: rgb(53, 53, 53);
-}
+$phone-bg-color: #ededed;
+$font-color: rgb(53, 53, 53);
 
 .iphone_x {
 	width: 375px;
 	height: 812px;
-	background-color: var(--phone-bg-color);
+	background-color: $phone-bg-color;
 }
 
 #phone {
@@ -25,7 +23,7 @@
 		font-size: 15px;
 		line-height: 1.5;
 		font-weight: 600;
-		color: var(--font-color);
+		color: $font-color;
 		flex: 1;
 	}
 	.bar_signal {
@@ -43,7 +41,7 @@
 	.bar_networks {
 		width: 21px;
 		font-size: 12px;
-		color: var(--font-color);
+		color: $font-color;
 		font-weight: 500;
 		text-align: center;
 		margin-right: 2px;
@@ -112,7 +110,7 @@
 			padding: 0 8px;
 			top: -3.5px;
 			left: 15px;
-			color: var(--font-color);
+			color: $font-color;
 		}
 	}
 	.center {
@@ -123,7 +121,7 @@
 		span {
 			font-size: 17px;
 			font-weight: 500;
-			color: var(--font-color);
+			color: $font-color;
 		}
 		.earphone {
 			width: 10px;
@@ -194,7 +192,7 @@
 			flex: 1;
 			text-align: center;
 			line-height: 40px;
-			color: var(--font-color);
+			color: $font-color;
 			font-weight: 500;
 		}
 	}
