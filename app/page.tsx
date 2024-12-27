@@ -1,6 +1,6 @@
 'use client'
 
-import { getRandomAvator } from '@/api/server'
+import { getRandomAvatar } from '@/api/server'
 import Phone from '@/components/phone'
 import { User } from '@/types/index'
 import { Time } from '@internationalized/date'
@@ -61,7 +61,7 @@ export default function Home() {
 	const labelPlacement = 'outside'
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const openUserModal = async () => {
-		const avatar = await getRandomAvator()
+		const avatar = await getRandomAvatar()
 		setUser({ avatar, name: `用户名_${Date.now()}` })
 		onOpen()
 	}
