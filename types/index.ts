@@ -19,7 +19,7 @@ export interface Phone {
 	bgImage: string | undefined
 }
 
-export interface User{
-	name: string,
+export interface User {
+	name: string
 	avatar: string | undefined
 }

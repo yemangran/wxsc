@@ -32,11 +32,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			<head />
 			<body className={clsx('font-sans antialiased', fontSans.variable)}>
 				<Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
-					<div className='bg-background relative flex flex-col'>
+					<div className='relative flex flex-col bg-background'>
 						<Navbar />
 						<main>{children}</main>
-						<footer className='w-full flex items-center justify-center py-3'>
-							<span className='text-default-600 pr-1'>Powered by</span>
+						<footer className='flex w-full items-center justify-center py-3'>
+							<span className='pr-1 text-default-600'>Powered by</span>
 							<Link className='flex items-center gap-1 text-current' href='https://nextjs.org'>
 								<p className='text-primary'>Next.js</p>
 							</Link>

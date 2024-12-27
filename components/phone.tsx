@@ -9,7 +9,9 @@ export default function PhoneComponent({ image, phone }: { image: any; phone: Ph
 				<div>
 					<div className={styles.phone_bar}>
 						{/* 有时服务器和客户端之间的内容不可避免地会有所不同，例如时间戳。您可以通过在元素中添加 suppressHydrationWarning={true} 来消除 hydration 不匹配警告。 */}
-						<div className={styles.bar_time} suppressHydrationWarning>{phone.dateTime.format('HH:mm')}</div>
+						<div className={styles.bar_time} suppressHydrationWarning>
+							{phone.dateTime.format('HH:mm')}
+						</div>
 						<div className={clsx(styles.bar_signal, styles[`signal_${phone.signal}`])}></div>
 						<div className={clsx(styles.bar_networks, styles[`${phone.network}_${phone.wifi}`])}>
 							{phone.network}

@@ -237,7 +237,7 @@ export default function Home() {
 									<ModalBody>
 										<div>
 											{/* todo)):头像外面包一层，然后添加遮罩实现编辑头像功能 */}
-										<Avatar src={user.avatar} className='mx-auto block h-1/2 w-1/2' />
+											<Avatar src={user.avatar} className='mx-auto block h-1/2 w-1/2' />
 										</div>
 										<Input
 											type='text'
