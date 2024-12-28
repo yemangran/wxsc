@@ -1,13 +1,8 @@
 'use server'
 
-const API_URL = 'https://api.uomg.com/api/rand.avatar'
-const AVATAR_TYPES = ['男', '女', '动漫男', '动漫女']
-
 export const getRandomAvatar = async (): Promise<string> => {
 	try {
-		const randomIndex = Math.floor(Math.random() * AVATAR_TYPES.length)
-		const params = new URLSearchParams({ sort: AVATAR_TYPES[randomIndex], format: 'images' })
-		const url = `${API_URL}?${params}`
+		const url = 'https://avatar.iran.liara.run/public'
 
 		const res = await fetch(url)
 
